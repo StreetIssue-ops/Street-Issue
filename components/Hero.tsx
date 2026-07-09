@@ -1,7 +1,8 @@
+import Link from "next/link";
+
 export default function Hero() {
   return (
     <section className="min-h-screen bg-black text-white flex items-center justify-center">
-
       <div className="text-center px-6">
 
         <p className="uppercase tracking-[10px] text-gray-500 mb-8">
@@ -20,15 +21,16 @@ export default function Hero() {
           Built for those who move different.
         </p>
 
-        <a
-          href="#shop"
-          className="inline-block mt-12 border border-white px-10 py-4 uppercase tracking-[0.3em] hover:bg-white hover:text-black duration-300"
-        >
-          Shop Collection
-        </a>
+        <div className="mt-12 flex justify-center">
+          <Link
+            href="/shop"
+            className="inline-flex items-center border border-white px-10 py-4 uppercase tracking-[0.3em] hover:bg-white hover:text-black transition duration-300"
+          >
+            Shop Now
+          </Link>
+        </div>
 
       </div>
-
     </section>
   );
 }
