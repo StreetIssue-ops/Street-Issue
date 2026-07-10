@@ -4,7 +4,12 @@ import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 
 export default function CartPage() {
-  const { cart } = useCart();
+  const {
+    cart,
+    increaseQuantity,
+    decreaseQuantity,
+    removeFromCart,
+  } = useCart();
 
   const total = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -13,7 +18,6 @@ export default function CartPage() {
 
   return (
     <main className="min-h-screen bg-black text-white px-8 py-16">
-
       <div className="max-w-5xl mx-auto">
 
         <h1 className="text-5xl font-black mb-10">
@@ -44,7 +48,7 @@ export default function CartPage() {
 
                   <div className="relative w-28 h-28 rounded-lg overflow-hidden bg-neutral-900">
 
-                    {item.image_url && (
+                    {item.image_url ? (
                       <Image
                         src={item.image_url}
                         alt={item.name}
@@ -52,6 +56,10 @@ export default function CartPage() {
                         unoptimized
                         className="object-cover"
                       />
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-neutral-500">
+                        No Image
+                      </div>
                     )}
 
                   </div>
@@ -66,8 +74,43 @@ export default function CartPage() {
                       ₦{item.price.toLocaleString()}
                     </p>
 
-                    <p className="mt-3">
-                      Qty: {item.quantity}
+                    <div className="flex items-center gap-4 mt-5">
+
+                      <button
+                        onClick={() => decreaseQuantity(item.id)}
+                        className="w-10 h-10 border border-white rounded-lg hover:bg-white hover:text-black transition cursor-pointer"
+                      >
+                        -
+                      </button>
+
+                      <span className="text-xl font-bold">
+                        {item.quantity}
+                      </span>
+
+                      <button
+                        onClick={() => increaseQuantity(item.id)}
+                        className="w-10 h-10 border border-white rounded-lg hover:bg-white hover:text-black transition cursor-pointer"
+                      >
+                        +
+                      </button>
+
+                    </div>
+
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="mt-5 text-red-500 hover:text-red-400 transition cursor-pointer"
+                    >
+                      Remove
+                    </button>
+
+                  </div>
+
+                  <div className="text-right">
+
+                    <p className="text-xl font-semibold">
+                      ₦{(
+                        item.price * item.quantity
+                      ).toLocaleString()}
                     </p>
 
                   </div>
@@ -83,13 +126,13 @@ export default function CartPage() {
                 Total
               </h2>
 
-              <p className="text-3xl">
+              <p className="text-3xl font-bold">
                 ₦{total.toLocaleString()}
               </p>
 
             </div>
 
-            <button className="mt-8 w-full bg-white text-black py-4 rounded-xl font-bold hover:bg-neutral-200 transition">
+            <button className="mt-8 w-full bg-white text-black py-4 rounded-xl font-bold hover:bg-neutral-200 transition cursor-pointer">
               Proceed to Checkout
             </button>
 
@@ -97,7 +140,6 @@ export default function CartPage() {
         )}
 
       </div>
-
     </main>
   );
 }
