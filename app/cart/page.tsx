@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 
 export default function CartPage() {
@@ -132,9 +133,12 @@ export default function CartPage() {
 
             </div>
 
-            <button className="mt-8 w-full bg-white text-black py-4 rounded-xl font-bold hover:bg-neutral-200 transition cursor-pointer">
+            <Link
+              href="/checkout"
+              className="mt-8 block w-full bg-white text-black text-center py-4 rounded-xl font-bold hover:bg-neutral-200 transition"
+            >
               Proceed to Checkout
-            </button>
+            </Link>
 
           </>
         )}
