@@ -1,87 +1,63 @@
-import Link from "next/link";
+import { notFound } from "next/navigation";
+import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 
-export default async function ShopPage() {
-  const { data: products, error } = await supabase
+type Props = {
+  params: Promise<{
+    slug: string;
+  }>;
+};
+
+export default async function ProductPage({ params }: Props) {
+  const { slug } = await params;
+
+  const { data: product, error } = await supabase
     .from("products")
     .select("*")
-    .order("created_at", { ascending: false });
+    .eq("slug", slug)
+    .single();
+
+  if (error || !product) {
+    notFound();
+  }
 
   return (
     <main className="min-h-screen bg-black text-white px-8 py-16">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
 
-        <h1 className="text-5xl font-bold mb-3">
-          Shop
-        </h1>
+        <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-neutral-900">
+          <Image
+            src={product.image_url}
+            alt={product.name}
+            fill
+            unoptimized
+            className="object-cover"
+          />
+        </div>
 
-        <p className="text-neutral-400 mb-12">
-          Discover the latest Street Issue pieces.
-        </p>
+        <div className="flex flex-col justify-center">
 
-        {error && (
-          <p className="text-red-500">
-            Failed to load products.
+          <h1 className="text-5xl font-black">
+            {product.name}
+          </h1>
+
+          <p className="text-3xl mt-6">
+            ₦{product.price.toLocaleString()}
           </p>
-        )}
 
-        {!products || products.length === 0 ? (
-          <div className="border border-neutral-800 rounded-2xl p-8 text-center">
-            <h2 className="text-2xl font-semibold mb-2">
-              No products yet
-            </h2>
+          <p className="text-neutral-400 mt-8 leading-8">
+            {product.description}
+          </p>
 
-            <p className="text-neutral-400">
-              Upload your first product from the admin dashboard.
-            </p>
-          </div>
-        ) : (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <p className="mt-8">
+            Stock: {product.stock}
+          </p>
 
-            {products.map((product) => (
-              <div
-                key={product.id}
-                className="border border-neutral-800 rounded-2xl overflow-hidden"
-              >
-                <div className="h-80 bg-neutral-900 flex items-center justify-center">
+          <button className="mt-10 w-full bg-white text-black py-4 rounded-xl font-semibold hover:bg-neutral-200 transition">
+            Add to Cart
+          </button>
 
-                  {product.image_url ? (
-                    <img
-                      src={product.image_url}
-                      alt={product.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-neutral-500">
-                      No Image
-                    </span>
-                  )}
-
-                </div>
-
-                <div className="p-5">
-
-                  <h2 className="text-xl font-semibold">
-                    {product.name}
-                  </h2>
-
-                  <p className="text-neutral-400 mt-2">
-                    ₦{product.price.toLocaleString()}
-                  </p>
-
-                  <Link
-                    href={`/shop/${product.slug}`}
-                    className="mt-5 block w-full text-center border border-white py-3 hover:bg-white hover:text-black transition"
-                  >
-                    View Product
-                  </Link>
-
-                </div>
-              </div>
-            ))}
-
-          </div>
-        )}
+        </div>
 
       </div>
     </main>

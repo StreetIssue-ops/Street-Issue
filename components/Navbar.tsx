@@ -23,9 +23,9 @@ export default function Navbar() {
 
           <Link
             href="/shop"
-            className="text-red-500 font-bold hover:text-red-300 transition"
+            className="hover:text-gray-400 transition"
           >
-            TEST SHOP
+            Shop
           </Link>
 
           <Link
