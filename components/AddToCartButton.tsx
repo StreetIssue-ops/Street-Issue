@@ -22,7 +22,7 @@ export default function AddToCartButton({ product }: Props) {
           quantity: 1,
         })
       }
-      className="mt-10 w-full bg-white text-black py-4 rounded-xl font-semibold hover:bg-neutral-200 transition"
+      className="mt-10 w-full cursor-pointer bg-white text-black py-4 rounded-xl font-semibold hover:bg-neutral-200 transition"
     >
       Add to Cart
     </button>
