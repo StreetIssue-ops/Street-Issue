@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
+import AddToCartButton from "@/components/AddToCartButton";
 
 type Props = {
   params: Promise<{
@@ -26,13 +27,21 @@ export default async function ProductPage({ params }: Props) {
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
 
         <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-neutral-900">
-          <Image
-            src={product.image_url}
-            alt={product.name}
-            fill
-            unoptimized
-            className="object-cover"
-          />
+
+          {product.image_url ? (
+            <Image
+              src={product.image_url}
+              alt={product.name}
+              fill
+              unoptimized
+              className="object-cover"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center text-neutral-500">
+              No Image Available
+            </div>
+          )}
+
         </div>
 
         <div className="flex flex-col justify-center">
@@ -53,9 +62,14 @@ export default async function ProductPage({ params }: Props) {
             Stock: {product.stock}
           </p>
 
-          <button className="mt-10 w-full bg-white text-black py-4 rounded-xl font-semibold hover:bg-neutral-200 transition">
-            Add to Cart
-          </button>
+          <AddToCartButton
+            product={{
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              image_url: product.image_url ?? "",
+            }}
+          />
 
         </div>
 
