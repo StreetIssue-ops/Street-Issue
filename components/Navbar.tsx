@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
@@ -17,6 +17,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-lg border-b border-white/10">
+
       <div className="max-w-7xl mx-auto flex items-center justify-between px-8 py-5">
 
         <Link
@@ -26,7 +27,7 @@ export default function Navbar() {
           SI
         </Link>
 
-        {/* Desktop Menu */}
+        {/* Desktop */}
 
         <div className="hidden md:flex gap-8 uppercase tracking-[0.15em] text-sm items-center">
 
@@ -40,53 +41,78 @@ export default function Navbar() {
 
           <Link
             href="/cart"
-            className="font-semibold"
+            className="flex items-center gap-2 font-semibold"
           >
-            Cart ({totalItems})
+            <ShoppingCart size={18} />
+
+            ({totalItems})
           </Link>
 
         </div>
 
-        {/* Mobile Button */}
+        {/* Mobile */}
 
-        <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden cursor-pointer"
-        >
-          {open ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        <div className="md:hidden flex items-center gap-5">
+
+          <Link
+            href="/cart"
+            className="relative"
+          >
+            <ShoppingCart size={24} />
+
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-3 bg-white text-black text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                {totalItems}
+              </span>
+            )}
+
+          </Link>
+
+          <button
+            onClick={() => setOpen(!open)}
+            className="cursor-pointer"
+          >
+            {open ? <X size={28} /> : <Menu size={28} />}
+          </button>
+
+        </div>
 
       </div>
 
       {open && (
         <div className="md:hidden border-t border-white/10 bg-black px-8 py-6 flex flex-col gap-6 uppercase tracking-[0.15em] text-sm">
 
-          <Link href="/" onClick={() => setOpen(false)}>
+          <Link
+            href="/"
+            onClick={() => setOpen(false)}
+          >
             Home
           </Link>
 
-          <Link href="/shop" onClick={() => setOpen(false)}>
+          <Link
+            href="/shop"
+            onClick={() => setOpen(false)}
+          >
             Shop
           </Link>
 
-          <Link href="/#about" onClick={() => setOpen(false)}>
+          <Link
+            href="/#about"
+            onClick={() => setOpen(false)}
+          >
             About
           </Link>
 
-          <Link href="/#contact" onClick={() => setOpen(false)}>
-            Contact
-          </Link>
-
           <Link
-            href="/cart"
+            href="/#contact"
             onClick={() => setOpen(false)}
-            className="font-semibold"
           >
-            Cart ({totalItems})
+            Contact
           </Link>
 
         </div>
       )}
+
     </nav>
   );
 }

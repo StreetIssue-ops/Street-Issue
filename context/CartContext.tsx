@@ -8,6 +8,8 @@ import {
   ReactNode,
 } from "react";
 
+import Toast from "@/components/Toast";
+
 type CartItem = {
   id: string;
   name: string;
@@ -32,8 +34,8 @@ export function CartProvider({
   children: ReactNode;
 }) {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [showToast, setShowToast] = useState(false);
 
-  // Load cart from localStorage
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
 
@@ -42,7 +44,6 @@ export function CartProvider({
     }
   }, []);
 
-  // Save cart whenever it changes
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
@@ -64,6 +65,12 @@ export function CartProvider({
 
       return [...prev, item];
     });
+
+    setShowToast(true);
+
+    setTimeout(() => {
+      setShowToast(false);
+    }, 2000);
   }
 
   function increaseQuantity(id: string) {
@@ -109,6 +116,10 @@ export function CartProvider({
       }}
     >
       {children}
+
+      {showToast && (
+        <Toast message="Added to cart successfully" />
+      )}
     </CartContext.Provider>
   );
 }
