@@ -1,4 +1,4 @@
-export default function Shop() {
+ export default function Shop() {
   return (
     <section
       id="shop"
@@ -12,28 +12,24 @@ export default function Shop() {
 
         <div className="grid md:grid-cols-2 gap-8">
 
-          <div className="border border-white/20 hover:border-white transition-all duration-300 p-20 cursor-pointer rounded-xl">
-
+          <div className="border border-white/20 hover:border-white transition-all duration-300 p-20 rounded-xl">
             <h3 className="text-4xl font-bold mb-4">
               TOPS
             </h3>
 
             <p className="text-gray-400">
-              Oversized tees and future collections.
+              Shirts and tees.
             </p>
-
           </div>
 
-          <div className="border border-white/20 hover:border-white transition-all duration-300 p-20 cursor-pointer rounded-xl">
-
+          <div className="border border-white/20 hover:border-white transition-all duration-300 p-20 rounded-xl">
             <h3 className="text-4xl font-bold mb-4">
               BOTTOMS
             </h3>
 
             <p className="text-gray-400">
-              Jorts, sweatpants and everyday essentials.
+              Jorts and sweatpants.
             </p>
-
           </div>
 
         </div>
