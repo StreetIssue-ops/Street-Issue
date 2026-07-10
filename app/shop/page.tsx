@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
+export const dynamic = "force-dynamic";
+
 export default async function ShopPage() {
   const { data: products, error } = await supabase
     .from("products")
@@ -37,14 +39,12 @@ export default async function ShopPage() {
           </div>
         ) : (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-
             {products.map((product) => (
               <div
                 key={product.id}
                 className="border border-neutral-800 rounded-2xl overflow-hidden"
               >
                 <div className="h-80 bg-neutral-900 flex items-center justify-center">
-
                   {product.image_url ? (
                     <img
                       src={product.image_url}
@@ -56,11 +56,9 @@ export default async function ShopPage() {
                       No Image
                     </span>
                   )}
-
                 </div>
 
                 <div className="p-5">
-
                   <h2 className="text-xl font-semibold">
                     {product.name}
                   </h2>
@@ -75,14 +73,11 @@ export default async function ShopPage() {
                   >
                     View Product
                   </Link>
-
                 </div>
               </div>
             ))}
-
           </div>
         )}
-
       </div>
     </main>
   );
